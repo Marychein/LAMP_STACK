@@ -28,7 +28,7 @@ Connecting to the EC2 Instance
 
 Once your instance is running, connect to it using SSH:
 
-ssh -i path/to/key.pem ubuntu@<your-public-ip>
+ssh -i path/to/key.pem ubuntu@3.85.8.54
 ```
 
 ---
@@ -46,8 +46,7 @@ Enable Apache to start on boot and check its status:
 sudo systemctl enable apache2
 sudo systemctl status apache2
 ```
-Test the Apache installation by visiting your EC2 instance's public IP in a browser (`http://<public-ip>`).
-
+Test the Apache installation by visiting your EC2 instance's public IP in a browser http://3.85.9.54:80
  3. Install MySQL
 ```bash
 sudo apt install mysql-server

@@ -1,0 +1,131 @@
+Setting up a LAMP Stack on an EC2 Instance (Ubuntu Server)
+
+In this guide, I will walk you through setting up a LAMP stack (Linux, Apache, MySQL, PHP) on an Amazon EC2 instance using Ubuntu Server 22.04 LTS. This setup is ideal for developing and hosting dynamic web applications.
+
+What makes up LAMP Stack
+
+- Linux: The operating system (Ubuntu Server 22.04 LTS).
+- Apache: The web server for hosting webpages.
+- MySQL: The database server for managing relational databases.
+- PHP: The server-side scripting language for web development.
+
+---
+
+ Launching an EC2 Instance
+
+1. **Sign in** to the AWS Management Console.
+2. Navigate to EC2 Dashboard and click Launch Instance.
+3. Select Ubuntu Server 22.04 LTS as the operating system.
+4. Configure instance details such as the instance type, network, subnet, and security group.
+5. Allocate storage based on your needs.
+6. Set up a **security group** allowing inbound traffic on:
+   - Port 22 (SSH)
+   - Port 80 (HTTP)
+   - Port 443 (HTTPS)
+Connecting to the EC2 Instance
+
+Once your instance is running, connect to it using SSH:
+
+ssh -i path/to/key.pem ubuntu@<your-public-ip>
+```
+
+---
+
+Installing the LAMP Stack
+
+Update Package Repository
+sudo apt update
+
+ Install Apache
+sudo apt install apache2
+```
+Enable Apache to start on boot and check its status:
+
+sudo systemctl enable apache2
+sudo systemctl status apache2
+```
+Test the Apache installation by visiting your EC2 instance's public IP in a browser (`http://<public-ip>`).
+
+ 3. Install MySQL
+```bash
+sudo apt install mysql-server
+sudo mysql_secure_installation
+```
+
+ 4. Install PHP
+sudo apt install php libapache2-mod-php php-mysql
+
+
+ Setting Up a Virtual Host
+
+ 1. Create Project Directory
+
+sudo mkdir /var/www/projectlamp
+sudo chown -R $USER:$USER /var/www/projectlamp
+
+
+2. Configure Virtual Host
+Create a virtual host configuration file for your project:
+
+sudo nano /etc/apache2/sites-available/projectlamp.conf
+
+Add the following content:
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName projectlamp
+    ServerAlias www.projectlamp
+    DocumentRoot /var/www/projectlamp
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+3. Enable Virtual Host
+
+sudo a2ensite projectlamp
+sudo a2dissite 000-default
+sudo systemctl reload apache2
+```
+
+---
+
+Step 5: Testing the Setup
+
+Create an `index.html` file to verify your project setup:
+
+echo "<h1>This is Marychein</h1>" > /var/www/projectlamp/index.html
+
+Visit your domain or EC2 public IP to confirm the project is live.
+
+Enabling PHP
+To enable PHP processing, update the directory index configuration:
+
+sudo nano /etc/apache2/mods-enabled/dir.conf
+
+Make sure `index.php` appears first:
+
+DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+
+
+Reload Apache:
+
+sudo systemctl reload apache2
+
+
+Create a simple PHP file for testing:
+
+echo "<?php phpinfo(); ?>" > /var/www/projectlamp/index.php
+
+Navigate to your project in a browser to confirm that PHP is working.
+
+
+Conclusion
+
+Setting up a LAMP stack on an AWS EC2 instance has provided me with hands-on experience in managing web servers and developing dynamic websites. This foundational knowledge is critical for scaling infrastructure, especially in cloud environments where performance and reliability are key.
+
+I plan to leverage this skillset in future projects, particularly in DevOps and web development, where scalable and robust infrastructures are vital.
+
+---
+
+This document is a step-by-step guide on configuring a LAMP stack and should serve as a solid reference for anyone looking to set up a similar environment on AWS EC2 with Ubuntu.

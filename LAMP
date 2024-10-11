@@ -24,6 +24,8 @@ What makes up LAMP Stack
    - Port 443 (HTTPS)
 Connecting to the EC2 Instance
 
+![EC2 Instance](https://github.com/Marychein/LAMP_STACK/blob/main/Screenshot%202024-10-11%20143922.png)
+
 Once your instance is running, connect to it using SSH:
 
 ssh -i path/to/key.pem ubuntu@<your-public-ip>
